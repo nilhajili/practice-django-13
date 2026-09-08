@@ -11,7 +11,7 @@ urlpatterns = [
     ),
 
     path(
-        "product/<int:pk>/review/",
+        "product/<int:product_id>/review/",
         views.add_review,
         name="add_review"
     ),

@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login
+from .forms import ReviewForm
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import Product, Review
@@ -41,35 +42,35 @@ def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
     reviews = product.reviews.all().order_by("-created_at")
+    review_form = ReviewForm()
 
     return render(
         request,
         "products/product_detail.html",
         {
             "product": product,
-            "reviews": reviews
+            "reviews": reviews,
+            "review_form": review_form
         }
     )
 
 
 @login_required
-def add_review(request, pk):
-
-    product = get_object_or_404(Product, pk=pk)
+def add_review(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
 
     if request.method == "POST":
+        form = ReviewForm(request.POST)
 
-        text = request.POST.get("text")
-        rating = request.POST.get("rating")
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
 
-        Review.objects.create(
-            product=product,
-            user=request.user,
-            text=text,
-            rating=rating
-        )
+            return redirect("product_detail", product.id)
 
-    return redirect("product_detail", pk=product.pk)
+    return redirect("product_detail", product.id)
 
 
 @login_required

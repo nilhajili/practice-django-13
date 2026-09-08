@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -79,7 +80,7 @@
     <div class="mb-6">
 
         <h2 class="text-3xl font-bold">
-             Reviews
+            Reviews
         </h2>
 
         <p class="text-gray-500 mt-2">
@@ -152,7 +153,7 @@
                                rounded-lg hover:bg-blue-700
                                transition"
                     >
-                         Edit
+                        Edit
                     </a>
 
 
@@ -169,7 +170,7 @@
                                    rounded-lg hover:bg-red-700
                                    transition"
                         >
-                             Delete
+                            Delete
                         </button>
 
                     </form>
@@ -186,7 +187,7 @@
         <div class="bg-white rounded-2xl shadow-sm p-8 text-center">
 
             <div class="text-5xl mb-4">
-
+                ⭐
             </div>
 
             <h3 class="text-xl font-semibold mb-2">
@@ -209,7 +210,7 @@
         <div class="bg-white rounded-3xl shadow-lg p-8 mt-10">
 
             <h2 class="text-2xl font-bold mb-2">
-                 Write a Review
+                Write a Review
             </h2>
 
             <p class="text-gray-500 mb-6">
@@ -234,17 +235,15 @@
                         Review
                     </label>
 
-                    <textarea
-                        name="text"
-                        rows="5"
-                        required
-                        placeholder="Write your review..."
-                        class="w-full px-4 py-3 border border-gray-300
-                               rounded-xl focus:outline-none
-                               focus:ring-2 focus:ring-blue-500
-                               focus:border-transparent
-                               resize-none"
-                    ></textarea>
+                    {{ review_form.text }}
+
+                    {% if review_form.text.errors %}
+
+                        <div class="text-red-500 text-sm mt-2">
+                            {{ review_form.text.errors }}
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
@@ -257,17 +256,19 @@
                         Rating
                     </label>
 
-                    <input
-                        type="number"
-                        name="rating"
-                        min="1"
-                        max="5"
-                        required
-                        placeholder="1 - 5"
-                        class="w-full px-4 py-3 border border-gray-300
-                               rounded-xl focus:outline-none
-                               focus:ring-2 focus:ring-blue-500"
-                    >
+                    {{ review_form.rating }}
+
+                    {% if review_form.rating.errors %}
+
+                        <div class="text-red-500 text-sm mt-2">
+                            {{ review_form.rating.errors }}
+                        </div>
+
+                    {% endif %}
+
+                    <p class="text-sm text-gray-400 mt-2">
+                        Choose a rating between 1 and 5.
+                    </p>
 
                 </div>
 
@@ -292,8 +293,6 @@
         <div class="bg-white rounded-2xl shadow-sm p-6 mt-10
                     text-center">
 
-
-
             <p class="text-gray-600 mb-4">
                 You need to log in to write a review.
             </p>
@@ -315,3 +314,4 @@
 
 </body>
 </html>
+
